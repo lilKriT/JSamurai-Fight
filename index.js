@@ -11,70 +11,19 @@ const gravity = 0.7;
 const spriteSpeed = 5;
 const jumpPower = 20;
 
-// Sprite class
-class Sprite {
-  // these curly brackets make it an object. now the order doesn't matter and they are optional
-  constructor({ position, velocity, color = "red", offset }) {
-    this.position = position;
-    this.velocity = velocity;
-    this.width = 50;
-    this.height = 150;
-    this.lastKey;
+const background = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  size: {
+    width: 1024,
+    height: 576,
+  },
+  imageSrc: "./img/background.png",
+});
 
-    this.attackBox = {
-      position: {
-        x: this.position.x,
-        y: this.position.y,
-      },
-      offset,
-      width: 100,
-      height: 50,
-    };
-    this.color = color;
-    this.isAttacking = false;
-    this.health = 100;
-  }
-
-  draw() {
-    c.fillStyle = this.color;
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-    // attack box drawing
-    if (this.isAttacking) {
-      c.fillStyle = "green";
-      c.fillRect(
-        this.attackBox.position.x,
-        this.attackBox.position.y,
-        this.attackBox.width,
-        this.attackBox.height
-      );
-    }
-  }
-
-  attack() {
-    this.isAttacking = true;
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
-  }
-
-  update() {
-    this.draw();
-    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-    this.attackBox.position.y = this.position.y;
-
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
-
-    if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-      this.velocity.y = 0;
-    } else {
-      this.velocity.y += gravity;
-    }
-  }
-}
-
-const player = new Sprite({
+const player = new Fighter({
   position: {
     x: 0,
     y: 0,
@@ -89,7 +38,7 @@ const player = new Sprite({
   },
 });
 
-const enemy = new Sprite({
+const enemy = new Fighter({
   position: {
     x: 400,
     y: 100,
@@ -120,50 +69,7 @@ const keys = {
   },
 };
 
-function rectangularCollision({ rectangle1, rectangle2 }) {
-  return (
-    rectangle1.attackBox.position.x + rectangle1.attackBox.width >=
-      rectangle2.position.x &&
-    rectangle1.attackBox.position.x <=
-      rectangle2.position.x + rectangle2.width &&
-    rectangle1.attackBox.position.y <=
-      rectangle2.position.y + rectangle2.height &&
-    rectangle1.attackBox.position.y + rectangle1.attackBox.height >=
-      rectangle2.position.y
-  );
-}
 
-function whoWins({ player, enemy, timerID }) {
-  document.querySelector(".game-wrapper .scoreboard-wrapper").style =
-    "display: flex";
-
-  if (player.health > enemy.health) {
-    document.querySelector(".game-wrapper .scoreboard").innerHTML = "Left wins";
-  } else if (player.health < enemy.health) {
-    document.querySelector(".game-wrapper .scoreboard").innerHTML =
-      "Right wins";
-  } else {
-    document.querySelector(".game-wrapper .scoreboard").innerHTML =
-      "It's a tie";
-  }
-
-  clearTimeout(timerID);
-}
-
-let timeLeft = 45;
-let timerID;
-
-function decreaseTimer() {
-  if (timeLeft > 0) {
-    timerID = setTimeout(decreaseTimer, 1000);
-    timeLeft--;
-    document.querySelector(".game-wrapper .timer").innerHTML = timeLeft;
-  }
-
-  if (timeLeft <= 0) {
-    whoWins({ player, enemy, timerID });
-  }
-}
 decreaseTimer();
 
 // main loop
@@ -171,6 +77,8 @@ function animate() {
   window.requestAnimationFrame(animate); // this creates and infinte loop
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+
+  background.update();
   player.update();
   enemy.update();
 

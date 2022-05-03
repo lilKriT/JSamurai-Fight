@@ -1,26 +1,40 @@
 // Sprite class
 class Sprite {
   // these curly brackets make it an object. now the order doesn't matter and they are optional
-  constructor({ position, size, imageSrc }) {
+  constructor({ position, imageSrc, scale = 1, frames = 1 }) {
     this.position = position;
-    this.width = size.width;
-    this.height = size.height;
     this.image = new Image();
     this.image.src = imageSrc;
+    this.scale = scale;
+    this.frames = frames;
+    this.frame = 0;
+    this.framesElapsed = 0;
+    this.framesHold = 10;
   }
 
   draw() {
     c.drawImage(
       this.image,
+      (this.image.width / this.frames) * this.frame,
+      0,
+      this.image.width / this.frames,
+      this.image.height,
       this.position.x,
       this.position.y,
-      this.width,
-      this.height
+      (this.image.width / this.frames) * this.scale,
+      this.image.height * this.scale
     );
   }
 
   update() {
     this.draw();
+
+    this.framesElapsed++;
+    if (this.framesElapsed >= this.framesHold) {
+      this.framesElapsed %= this.framesHold;
+      this.frame++;
+      this.frame %= this.frames;
+    }
   }
 }
 

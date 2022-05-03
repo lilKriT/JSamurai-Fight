@@ -16,11 +16,17 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  size: {
-    width: 1024,
-    height: 576,
-  },
   imageSrc: "./img/background.png",
+});
+
+const shop = new Sprite({
+  position: {
+    x: 600,
+    y: 160,
+  },
+  frames: 6,
+  scale: 2.5,
+  imageSrc: "./img/shop.png",
 });
 
 const player = new Fighter({
@@ -69,7 +75,6 @@ const keys = {
   },
 };
 
-
 decreaseTimer();
 
 // main loop
@@ -79,6 +84,7 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   background.update();
+  shop.update();
   player.update();
   enemy.update();
 

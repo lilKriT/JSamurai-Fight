@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Shadows+Into+Light&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -5,9 +7,9 @@
 }
 
 .game-wrapper {
-    position: relative;
-    /* could also use display: inline-block */
-    width: max-content;
+  position: relative;
+  /* could also use display: inline-block */
+  width: max-content;
 }
 
 .game-wrapper .top-section {
@@ -22,24 +24,52 @@
 }
 
 .game-wrapper .timer {
-    width: 100px;
-    height: 70px;
-    background-color: red;
+  width: 100px;
+  height: 70px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Orbitron", sans-serif;
+  font-size: 3rem;
 }
 
 .game-wrapper .player-hp,
 .game-wrapper .enemy-hp {
-    background-color: yellow;
-    height: 30px;
-    flex-grow: 1;
+  background-color: yellow;
+  height: 30px;
+  flex-grow: 1;
 }
 
-.game-wrapper .enemy-hp .hp-inner{
+.game-wrapper .enemy-hp .hp-inner {
   margin-left: auto;
 }
 
 .game-wrapper .hp-inner {
-    background-color: green;
-    height: 100%;
-    width: 100%;
+  background-color: green;
+  height: 100%;
+  width: 100%;
+}
+
+.game-wrapper .scoreboard-wrapper {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-wrapper .scoreboard {
+  padding: 2rem 5rem;
+  border: 1px solid #fff;
+  border-radius: 1rem;
+  background: radial-gradient(#0f0c29, #302b63);
+  box-shadow: inset 0 0 15px 15px rgba(255, 255, 255, 0.1);
+  font-family: "Shadows Into Light";
+  font-size: 6rem;
+  color: #000;
+  text-shadow: 1px 1px 5px #fff;
 }

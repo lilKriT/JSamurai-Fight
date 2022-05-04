@@ -71,6 +71,14 @@ const player = new Fighter({
       frames: 6,
     },
   },
+  attackBox: {
+    offset: {
+      x: 100,
+      y: 50,
+    },
+    width: 160,
+    height: 50,
+  },
 });
 
 const enemy = new Fighter({
@@ -114,6 +122,14 @@ const enemy = new Fighter({
       imageSrc: "./img/kenji/Attack1.png",
       frames: 4,
     },
+  },
+  attackBox: {
+    offset: {
+      x: -170,
+      y: 50,
+    },
+    width: 170,
+    height: 50,
   },
 });
 
@@ -178,14 +194,14 @@ function animate() {
 
   if (enemy.velocity.y < 0) {
     enemy.switchSprite("jump");
-  } else if (enemy.velocity.y > 0) {
     enemy.switchSprite("fall");
   }
-  
+
   // detecting collision - player
   if (
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.frame === 4
   ) {
     player.isAttacking = false;
     console.log("enemy hit");
@@ -195,10 +211,16 @@ function animate() {
       enemy.health + "%";
   }
 
+  // player whiffed
+  if (player.isAttacking && player.frame === 4) {
+    player.isAttacking = false;
+  }
+
   // detecting collision - enemy
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.frame === 2
   ) {
     enemy.isAttacking = false;
     console.log("player hit");
@@ -206,6 +228,11 @@ function animate() {
     player.health -= 20;
     document.querySelector(".player-hp .hp-inner").style.width =
       player.health + "%";
+  }
+
+  // enemy whiffed
+  if (enemy.isAttacking && enemy.frame === 4) {
+    enemy.isAttacking = false;
   }
 
   if (player.health <= 0 || enemy.health <= 0) {

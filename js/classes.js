@@ -63,6 +63,7 @@ class Fighter extends Sprite {
     framesHold = 10,
     offset = { x: 0, y: 0 },
     sprites,
+    attackBox = { offset: {}, width: undefined, height: undefined },
   }) {
     super({ position, imageSrc, scale, frames, framesHold, offset });
 
@@ -80,9 +81,9 @@ class Fighter extends Sprite {
         x: this.position.x,
         y: this.position.y,
       },
-      offset,
-      width: 100,
-      height: 50,
+      offset: attackBox.offset,
+      width: attackBox.width,
+      height: attackBox.height,
     };
     this.color = color;
     this.isAttacking = false;
@@ -98,9 +99,6 @@ class Fighter extends Sprite {
   attack() {
     this.isAttacking = true;
     this.switchSprite("attack");
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
   }
 
   switchSprite(sprite) {
@@ -159,7 +157,15 @@ class Fighter extends Sprite {
     this.animateFrames();
 
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-    this.attackBox.position.y = this.position.y;
+    this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
+
+    // drawing attack collider
+    // c.fillRect(
+    //   this.attackBox.position.x,
+    //   this.attackBox.position.y,
+    //   this.attackBox.width,
+    //   this.attackBox.height
+    // );
 
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;

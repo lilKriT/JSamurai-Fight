@@ -74,6 +74,10 @@ const player = new Fighter({
       imageSrc: "./img/samuraiMack/Take hit.png",
       frames: 4,
     },
+    death: {
+      imageSrc: "./img/samuraiMack/Death.png",
+      frames: 6,
+    },
   },
   attackBox: {
     offset: {
@@ -129,6 +133,10 @@ const enemy = new Fighter({
     takeHit: {
       imageSrc: "./img/kenji/Take hit.png",
       frames: 3,
+    },
+    death: {
+      imageSrc: "./img/kenji/Death.png",
+      frames: 7,
     },
   },
   attackBox: {
@@ -246,41 +254,50 @@ function animate() {
 animate();
 
 window.addEventListener("keydown", (e) => {
-  switch (e.key) {
-    // player controls
-    case "d":
-      keys.d.pressed = true;
-      player.lastKey = "d";
-      break;
-    case "a":
-      keys.a.pressed = true;
-      player.lastKey = "a";
-      break;
-    case "w":
-      player.velocity.y = -jumpPower;
-      break;
-    case " ":
-      player.attack();
-      break;
+  if (!player.dead) {
+    switch (e.key) {
+      // player controls
+      case "d":
+        keys.d.pressed = true;
+        player.lastKey = "d";
+        break;
+      case "a":
+        keys.a.pressed = true;
+        player.lastKey = "a";
+        break;
+      case "w":
+        player.velocity.y = -jumpPower;
+        break;
+      case " ":
+        player.attack();
+        break;
 
-    // enemy controls
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = "ArrowRight";
-      break;
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = "ArrowLeft";
-      break;
-    case "ArrowUp":
-      enemy.velocity.y = -jumpPower;
-      break;
-    case "ArrowDown":
-      enemy.attack();
-      break;
+      default:
+        break;
+    }
+  }
 
-    default:
-      break;
+  if (!enemy.dead) {
+    switch (e.key) {
+      // enemy controls
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true;
+        enemy.lastKey = "ArrowRight";
+        break;
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true;
+        enemy.lastKey = "ArrowLeft";
+        break;
+      case "ArrowUp":
+        enemy.velocity.y = -jumpPower;
+        break;
+      case "ArrowDown":
+        enemy.attack();
+        break;
+
+      default:
+        break;
+    }
   }
 });
 

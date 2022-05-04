@@ -174,6 +174,9 @@ function animate() {
 
   background.update();
   shop.update();
+  c.fillStyle = "rgba(255, 255, 255, 0.15)";
+  // c.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
   enemy.update();
 
@@ -221,8 +224,11 @@ function animate() {
   ) {
     player.isAttacking = false;
     enemy.takeHit();
-    document.querySelector(".enemy-hp .hp-inner").style.width =
-      enemy.health + "%";
+    // document.querySelector(".enemy-hp .hp-inner").style.width =
+    // enemy.health + "%";
+    gsap.to(".enemy-hp .hp-inner", {
+      width: enemy.health + "%",
+    });
   }
 
   // player whiffed
@@ -238,8 +244,11 @@ function animate() {
   ) {
     enemy.isAttacking = false;
     player.takeHit();
-    document.querySelector(".player-hp .hp-inner").style.width =
-      player.health + "%";
+    // document.querySelector(".player-hp .hp-inner").style.width =
+    //   player.health + "%";
+    gsap.to(".player-hp .hp-inner", {
+      width: player.health + "%",
+    });
   }
 
   // enemy whiffed

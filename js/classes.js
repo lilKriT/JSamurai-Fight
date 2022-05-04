@@ -101,10 +101,22 @@ class Fighter extends Sprite {
     this.switchSprite("attack");
   }
 
+  takeHit() {
+    this.health -= 20;
+    this.switchSprite("takeHit");
+  }
+
   switchSprite(sprite) {
     if (
       this.image === this.sprites.attack.image &&
       this.frame < this.sprites.attack.frames - 1
+    ) {
+      return;
+    }
+
+    if (
+      this.image === this.sprites.takeHit.image &&
+      this.frame < this.sprites.takeHit.frames - 1
     ) {
       return;
     }
@@ -116,8 +128,8 @@ class Fighter extends Sprite {
           this.frames = this.sprites.idle.frames;
           this.frame = 0;
         }
-
         break;
+
       case "run":
         if (this.image !== this.sprites.run.image) {
           this.image = this.sprites.run.image;
@@ -125,6 +137,7 @@ class Fighter extends Sprite {
           this.frame = 0;
         }
         break;
+
       case "jump":
         if (this.image !== this.sprites.jump.image) {
           this.image = this.sprites.jump.image;
@@ -132,6 +145,7 @@ class Fighter extends Sprite {
           this.frame = 0;
         }
         break;
+
       case "fall":
         if (this.image !== this.sprites.fall.image) {
           this.image = this.sprites.fall.image;
@@ -139,10 +153,19 @@ class Fighter extends Sprite {
           this.frame = 0;
         }
         break;
+
       case "attack":
         if (this.image !== this.sprites.attack.image) {
           this.image = this.sprites.attack.image;
           this.frames = this.sprites.attack.frames;
+          this.frame = 0;
+        }
+        break;
+
+      case "takeHit":
+        if (this.image !== this.sprites.takeHit.image) {
+          this.image = this.sprites.takeHit.image;
+          this.frames = this.sprites.takeHit.frames;
           this.frame = 0;
         }
         break;

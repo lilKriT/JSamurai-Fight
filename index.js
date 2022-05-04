@@ -70,6 +70,10 @@ const player = new Fighter({
       imageSrc: "./img/samuraiMack/Attack1.png",
       frames: 6,
     },
+    takeHit: {
+      imageSrc: "./img/samuraiMack/Take hit.png",
+      frames: 4,
+    },
   },
   attackBox: {
     offset: {
@@ -121,6 +125,10 @@ const enemy = new Fighter({
     attack: {
       imageSrc: "./img/kenji/Attack1.png",
       frames: 4,
+    },
+    takeHit: {
+      imageSrc: "./img/kenji/Take hit.png",
+      frames: 3,
     },
   },
   attackBox: {
@@ -204,9 +212,7 @@ function animate() {
     player.frame === 4
   ) {
     player.isAttacking = false;
-    console.log("enemy hit");
-
-    enemy.health -= 20;
+    enemy.takeHit();
     document.querySelector(".enemy-hp .hp-inner").style.width =
       enemy.health + "%";
   }
@@ -223,9 +229,7 @@ function animate() {
     enemy.frame === 2
   ) {
     enemy.isAttacking = false;
-    console.log("player hit");
-
-    player.health -= 20;
+    player.takeHit();
     document.querySelector(".player-hp .hp-inner").style.width =
       player.health + "%";
   }
